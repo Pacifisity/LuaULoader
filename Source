@@ -1,0 +1,35 @@
+--// PUBLIC SOURCE CODE
+return function(providedToken)
+    local USER = "Pacifisity"
+    local REPO = "LuaU"
+
+    _G.GitHubFetch = function(FileName)
+        local url = "https://api.github.com/repos/"..USER.."/"..REPO.."/contents/"..FileName
+        
+        local success, response = pcall(function()
+            return request({
+                Url = url,
+                Method = "GET",
+                Headers = {
+                    ["Authorization"] = "Bearer " .. providedToken,
+                    ["Accept"]        = "application/vnd.github.v3.raw",
+                    ["User-Agent"]    = "Mozilla/5.0"
+                }
+            })
+        end)
+
+        if success and response and response.StatusCode == 200 then
+            local code = response.Body
+            local func, err = loadstring(code)
+            if func then
+                return func()
+            else
+                warn("❌ Loadstring Error [" .. FileName .. "]: " .. tostring(err))
+            end
+        else
+            warn("❌ Failed to fetch " .. FileName .. " (Check if your token is valid)")
+        end
+    end
+
+    _G.GitHubFetch("Global.lua")
+end
