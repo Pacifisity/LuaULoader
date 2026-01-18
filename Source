@@ -1,3 +1,5 @@
+print("loading")
+
 return function(TOKEN)
     local USER  = "Pacifisity"
     local REPO  = "LuaU"
