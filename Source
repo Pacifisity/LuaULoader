@@ -1,7 +1,6 @@
---// PUBLIC SOURCE CODE
-return function(providedToken)
-    local USER = "Pacifisity"
-    local REPO = "LuaU"
+return function(TOKEN)
+    local USER  = "Pacifisity"
+    local REPO  = "LuaU"
 
     _G.GitHubFetch = function(FileName)
         local url = "https://api.github.com/repos/"..USER.."/"..REPO.."/contents/"..FileName
@@ -11,7 +10,7 @@ return function(providedToken)
                 Url = url,
                 Method = "GET",
                 Headers = {
-                    ["Authorization"] = "Bearer " .. providedToken,
+                    ["Authorization"] = "Bearer " .. TOKEN,
                     ["Accept"]        = "application/vnd.github.v3.raw",
                     ["User-Agent"]    = "Mozilla/5.0"
                 }
@@ -27,7 +26,7 @@ return function(providedToken)
                 warn("❌ Loadstring Error [" .. FileName .. "]: " .. tostring(err))
             end
         else
-            warn("❌ Failed to fetch " .. FileName .. " (Check if your token is valid)")
+            warn("❌ Failed to fetch " .. FileName)
         end
     end
 
